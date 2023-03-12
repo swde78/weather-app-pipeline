@@ -1,10 +1,10 @@
 #build stage
 FROM golang:alpine AS builder
-RUN apk add git
 WORKDIR /go/src/app
-RUN git clone https://github.com/abohmeed/weatherapp
-WORKDIR /go/src/app/weatherapp/auth/src/main
-RUN go build -o /go/bin/app -v ./...
+COPY src/ .
+WORKDIR /go/src/app/main
+RUN go get -v ./...
+RUN go build -o /go/bin/app/ -v ./...
 
 #final stage
 FROM alpine:latest
