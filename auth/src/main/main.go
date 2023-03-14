@@ -1,10 +1,10 @@
 package main
 
 import (
+	"authdb"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"github.com/abohmeed/auth/authdb"
 	"github.com/dgrijalva/jwt-go"
 	"net/http"
 	"os"
@@ -18,8 +18,9 @@ import (
 const secretkey string = "xco0sr0fh4e52x03g9mv"
 
 var dbHost string
-var dbRoot = "root"
+var dbUser string
 var dbPassword string
+var dbName string
 
 type Token struct {
 	Role        string `json:"role"`
@@ -31,12 +32,18 @@ func main() {
 	if os.Getenv("DB_HOST") != "" {
 		dbHost = os.Getenv("DB_HOST")
 	}
+	if os.Getenv("DB_USER") != "" {
+		dbUser = os.Getenv("DB_USER")
+	}
 	if os.Getenv("DB_PASSWORD") != "" {
 		dbPassword = os.Getenv("DB_PASSWORD")
 	}
-	db := authdb.Connect(dbRoot, dbPassword, dbHost)
-	authdb.CreateDB(db)
-	authdb.CreateTables(db)
+	if os.Getenv("DB_NAME") != "" {
+		dbName = os.Getenv("DB_NAME")
+	}
+	db := authdb.Connect(dbUser, dbPassword, dbHost)
+	authdb.CreateDB(db, dbName)
+	authdb.CreateTables(db, dbName)
 	router := gin.Default()
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"*"}
@@ -55,7 +62,7 @@ type UserCreds struct {
 }
 
 func health(c *gin.Context) {
-	db := authdb.Connect(dbRoot, dbPassword, dbHost)
+	db := authdb.Connect(dbUser, dbPassword, dbHost)
 	if db == nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not connect to the database"})
 	} else {
@@ -73,8 +80,8 @@ func loginUser(c *gin.Context) {
 	}
 	encPasswordb := md5.Sum([]byte(uc.Password))
 	encPassword := hex.EncodeToString(encPasswordb[:])
-	db := authdb.Connect(dbRoot, dbPassword, dbHost)
-	u, err := authdb.GetUserByName(uc.Username, db)
+	db := authdb.Connect(dbUser, dbPassword, dbHost)
+	u, err := authdb.GetUserByName(uc.Username, db, dbName)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -93,8 +100,8 @@ func loginUser(c *gin.Context) {
 func createUser(c *gin.Context) {
 	var u authdb.User
 	c.BindJSON(&u)
-	db := authdb.Connect(dbRoot, dbPassword, dbHost)
-	result, err := authdb.CreateUser(db, u)
+	db := authdb.Connect(dbUser, dbPassword, dbHost)
+	result, err := authdb.CreateUser(db, u, dbName)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error while adding the user. Please check the logs"})
