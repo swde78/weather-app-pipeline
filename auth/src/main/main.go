@@ -42,7 +42,7 @@ func main() {
 		dbName = os.Getenv("DB_NAME")
 	}
 	db := authdb.Connect(dbUser, dbPassword, dbHost)
-	authdb.CreateDB(db, dbName)
+	// authdb.CreateDB(db, dbName)
 	authdb.CreateTables(db, dbName)
 	router := gin.Default()
 	corsConfig := cors.DefaultConfig()
