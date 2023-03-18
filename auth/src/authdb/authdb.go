@@ -14,7 +14,7 @@ type User struct {
 }
 
 func Connect(dbUser string, dbPassword string, dbHost string) *sql.DB {
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s)/", dbUser, dbPassword, dbHost))
+	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/", dbUser, dbPassword, dbHost))
 	if err != nil {
 		fmt.Println(err.Error())
 	}
