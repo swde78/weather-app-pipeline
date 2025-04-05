@@ -1,7 +1,12 @@
+version: '3.8'
+
 services:
   auth:
     restart: always
-    build: ./auth
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    image: ghcr.io/swde78/weather-app-pipeline:latest
     depends_on:
       - db
     environment:
@@ -14,7 +19,10 @@ services:
 
   ui:
     restart: always
-    build: ./UI
+    build:
+      context: ./UI
+      dockerfile: Dockerfile
+    image: ghcr.io/swde78/weather-app-pipeline:latest
     depends_on:
       - auth
       - weather
@@ -29,7 +37,10 @@ services:
       - app-net
   weather:
     restart: always
-    build: ./weather
+    build:
+      context: ./weather
+      dockerfile: Dockerfile
+    image: ghcr.io/swde78/weather-app-pipeline:latest
     environment:
       APIKEY: ${APIKEY}
     networks:
