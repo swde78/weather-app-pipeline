@@ -6,7 +6,7 @@ services:
     build:
       context: ./auth
       dockerfile: Dockerfile
-    image: ghcr.io/swde78/weather-app-pipeline:latest
+    image: ghcr.io/swde78/weather-app-au:latest
     depends_on:
       - db
     environment:
@@ -22,7 +22,7 @@ services:
     build:
       context: ./UI
       dockerfile: Dockerfile
-    image: ghcr.io/swde78/weather-app-pipeline:latest
+    image: ghcr.io/swde78/weather-app-ui:latest
     depends_on:
       - auth
       - weather
@@ -40,7 +40,7 @@ services:
     build:
       context: ./weather
       dockerfile: Dockerfile
-    image: ghcr.io/swde78/weather-app-pipeline:latest
+    image: ghcr.io/swde78/weather-app-we:latest
     environment:
       APIKEY: ${APIKEY}
     networks:
