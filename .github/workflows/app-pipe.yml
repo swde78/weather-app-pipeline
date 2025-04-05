@@ -1,0 +1,111 @@
+name: CI/CD Pipeline for Weather App
+
+on:
+  push:
+    branches:
+      - main 
+  pull_request:
+    branches:
+      - main  
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+     
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+     
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+     
+      - name: Build and push auth service
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/auth:latest ./auth
+          docker push ghcr.io/${{ github.repository_owner }}/auth:latest
+
+     
+      - name: Build and push ui service
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/ui:latest ./UI
+          docker push ghcr.io/${{ github.repository_owner }}/ui:latest
+
+      
+      - name: Build and push weather service
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/weather:latest ./weather
+          docker push ghcr.io/${{ github.repository_owner }}/weather:latest
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+r }}/auth:latest|' docker-compose.yml
+}}/ui:latest|' docker-compose.yml
+wner }}/weather:latest|' docker-compose.yml
+
+
+
+
+
+
