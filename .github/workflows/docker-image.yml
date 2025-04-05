@@ -30,31 +30,14 @@ jobs:
       - name: Build and push auth service
         uses: docker/build-push-action@v5
         with:
-          context: ./auth
+          context: ./auth ./UI ./weather
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/weather-app-au:latest     
+            ghcr.io/${{ github.repository_owner }}/weather-app-au:latest      
+            ghcr.io/${{ github.repository_owner }}/weather-app-ui:latest
+            ghcr.io/${{ github.repository_owner }}/weather-app-we:latest
             ghcr.io/${{ github.repository_owner }}/weather-app:${{ github.sha }}
 
 
        
-      - name: Build and push UI service
-         uses: docker/build-push-action@v5
-         with:
-           context: ./UI
-           push: true
-           tags: |
-             ghcr.io/${{ github.repository_owner }}/weather-app-ui:latest
-             ghcr.io/${{ github.repository_owner }}/weather-app:${{ github.sha }}
-
-
-                   
-      - name: Build and push weather service
-        uses: docker/build-push-action@v5
-        with:
-          context: ./weather
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/weather-app-we:latest
-            ghcr.io/${{ github.repository_owner }}/weather-app:${{ github.sha }}
 
