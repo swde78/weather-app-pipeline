@@ -33,7 +33,7 @@ jobs:
           context: ./auth
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/weather-app-auth:latest
+            ghcr.io/${{ github.repository_owner }}/weather-app-au:latest
             ghcr.io/${{ github.repository_owner }}/weather-app:${{ github.sha }}
 
 
@@ -55,6 +55,6 @@ jobs:
           context: ./weather
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/weather-app-weather:latest
+            ghcr.io/${{ github.repository_owner }}/weather-app-we:latest
             ghcr.io/${{ github.repository_owner }}/weather-app:${{ github.sha }}
 
