@@ -9,18 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
 
-    services:
-      db:    
-        image: mysql:8.0.25
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-        ports:
-          - 3306:3306
-        volumes:
-          - db-data:/var/lib/mysql
-
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
